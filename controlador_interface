@@ -1,0 +1,121 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+entity controlador is
+    port (
+        clock       : in  std_logic;
+        reset       : in  std_logic;
+        iniciar     : in  std_logic;
+        resposta    : in  std_logic;
+        fim_atraso  : in  std_logic;
+        zeraCont    : out std_logic;
+        contaCont   : out std_logic;
+        ligado      : out std_logic;
+        estimulo    : out std_logic;
+        erro        : out std_logic;
+        pronto      : out std_logic;
+        pulso       : out std_logic;
+        db_estado   : out std_logic_vector(3 downto 0);
+        valor_tempo : out std_logic_vector(13 downto 0)
+    );
+end entity controlador;
+
+architecture behavior of controlador is
+
+    type t_estado is (st_IDLE, st_ESPERA, st_ESTIMULO, st_ERRO, st_PRONTO);
+    signal estado_atual, proximo_estado : t_estado;
+    signal cont_tempo : unsigned(13 downto 0);
+
+begin
+
+    -- Registro de estado e contador do tempo de resposta.
+    process (clock, reset)
+    begin
+        if reset = '1' then
+            estado_atual <= st_IDLE;
+            cont_tempo <= (others => '0');
+        elsif rising_edge(clock) then
+            estado_atual <= proximo_estado;
+
+            if estado_atual = st_IDLE or estado_atual = st_ESPERA then
+                cont_tempo <= (others => '0');
+            elsif estado_atual = st_ESTIMULO and resposta = '0' and cont_tempo < to_unsigned(9999, cont_tempo'length) then
+                cont_tempo <= cont_tempo + 1;
+            end if;
+        end if;
+    end process;
+
+    process (estado_atual, iniciar, resposta, fim_atraso, cont_tempo)
+    begin
+        zeraCont <= '0';
+        contaCont <= '0';
+        ligado <= '0';
+        estimulo <= '0';
+        erro <= '0';
+        pronto <= '0';
+        pulso <= '0';
+        db_estado <= "0000";
+        proximo_estado <= estado_atual;
+
+        case estado_atual is
+            when st_IDLE =>
+                zeraCont <= '1';
+                db_estado <= "0000";
+                if iniciar = '1' then
+                    proximo_estado <= st_ESPERA;
+                else
+                    proximo_estado <= st_IDLE;
+                end if;
+
+            when st_ESPERA =>
+                ligado <= '1';
+                db_estado <= "0001";
+                if resposta = '1' then
+                    proximo_estado <= st_ERRO;
+                elsif fim_atraso = '1' then
+                    proximo_estado <= st_ESTIMULO;
+                else
+                    contaCont <= '1';
+                    proximo_estado <= st_ESPERA;
+                end if;
+
+            when st_ESTIMULO =>
+                ligado <= '1';
+                db_estado <= "0010";
+                if resposta = '1' then
+                    proximo_estado <= st_PRONTO;
+                elsif cont_tempo = to_unsigned(9999, cont_tempo'length) then
+                    proximo_estado <= st_ERRO;
+                else
+                    estimulo <= '1';
+						  erro <= '0';
+						  pronto <= '0';
+                    pulso <= '1';
+                    proximo_estado <= st_ESTIMULO;
+                end if;
+
+            when st_ERRO =>
+                ligado <= '1';
+                erro <= '1';
+					 estimulo <= '0';
+                db_estado <= "0011";
+                proximo_estado <= st_PRONTO;
+
+            when st_PRONTO =>
+                ligado <= '1';
+                pronto <= '1';
+					 erro <= '0';
+					 estimulo <= '0';
+                db_estado <= "0100";
+                proximo_estado <= st_IDLE;
+
+            when others =>
+                db_estado <= "1111";
+                proximo_estado <= st_IDLE;
+        end case;
+    end process;
+
+    valor_tempo <= std_logic_vector(cont_tempo);
+
+end architecture behavior;
