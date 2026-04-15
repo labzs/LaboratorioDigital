@@ -1,0 +1,101 @@
+Archive Project report for jogo_tempo_reacao
+Sat Apr 11 12:38:31 2026
+Quartus Prime Version 24.1std.0 Build 1077 03/04/2025 SC Lite Edition
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. Archive Project Summary
+  3. Archive Project Messages
+  4. Files Archived
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 2025  Altera Corporation. All rights reserved.
+Your use of Altera Corporation's design tools, logic functions 
+and other software and tools, and any partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Altera Program License 
+Subscription Agreement, the Altera Quartus Prime License Agreement,
+the Altera IP License Agreement, or other applicable license
+agreement, including, without limitation, that your use is for
+the sole purpose of programming logic devices manufactured by
+Altera and sold by Altera or its authorized distributors.  Please
+refer to the Altera Software License Subscription Agreements 
+on the Quartus Prime software download page.
+
+
+
++----------------------------------------------------------------+
+; Archive Project Summary                                        ;
++------------------------+---------------------------------------+
+; Archive Project Status ; Successful - Sat Apr 11 12:38:31 2026 ;
+; Revision Name          ; jogo_tempo_reacao                     ;
+; Top-level Entity Name  ; jogo_tempo_reacao                     ;
+; Family                 ; Cyclone V                             ;
++------------------------+---------------------------------------+
+
+
++--------------------------+
+; Archive Project Messages ;
++--------------------------+
+Info: File Set 'Source control' contains:
+    Info: Project source and settings files
+    Info: Automatically detected source files
+Warning: Hierarchical Platform Designer systems and custom IP components(_hw.tcl and associated files) are not archived by the Quartus Archiver
+Info: Archive will store files relative to the closest common parent directory
+Info (13213): Using common directory C:/Users/Renan/Desktop/PCS3335/Ex6/
+Info: ----------------------------------------------------------
+Info: ----------------------------------------------------------
+Info: Generated archive 'C:/Users/Renan/Desktop/PCS3335/Ex6/Quartus/exp6_T4B04.qar'
+Info: ----------------------------------------------------------
+Info: ----------------------------------------------------------
+Info: Generated report 'jogo_tempo_reacao.archive.rpt'
+Info (23030): Evaluation of Tcl script c:/intelfpga_lite/24.1std/quartus/common/tcl/apps/qpm/qar.tcl was successful
+Info: Quartus Prime Shell was successful. 0 errors, 1 warning
+    Info: Peak virtual memory: 4837 megabytes
+    Info: Processing ended: Sat Apr 11 12:38:31 2026
+    Info: Elapsed time: 00:00:02
+    Info: Total CPU time (on all processors): 00:00:02
+
+
++------------------------------------------------------------------------+
+; Files Archived                                                         ;
++------------------------------------------------------------------------+
+; File Name                                                              ;
++------------------------------------------------------------------------+
+; ../Codigo/cont10.vhd                                                   ;
+; ../Codigo/cont10_4digitos.vhd                                          ;
+; ../Codigo/hex7seg.vhd                                                  ;
+; ../Codigo/interface_leds_botoes.vhd                                    ;
+; ../Codigo/interface_leds_botoes_uc.vhd                                 ;
+; ../Codigo/jogo_tempo_reacao.vhd                                        ;
+; ../Codigo/jogo_tempo_reacao_tb.vhd                                     ;
+; ../Codigo/jogo_tempo_reacao_uc.vhd                                     ;
+; ../Codigo/medidor_largura.vhd                                          ;
+; ../Codigo/medidor_largura_uc.vhd                                       ;
+; ../Codigo/pulso_assincrono.vhd                                         ;
+; c:/intelfpga_lite/24.1std/quartus/bin64/assignment_defaults.qdf        ;
+; C:/Users/Renan/Desktop/PCS3335/Ex6/Codigo/cont10.vhd                   ;
+; C:/Users/Renan/Desktop/PCS3335/Ex6/Codigo/cont10_4digitos.vhd          ;
+; C:/Users/Renan/Desktop/PCS3335/Ex6/Codigo/hex7seg.vhd                  ;
+; C:/Users/Renan/Desktop/PCS3335/Ex6/Codigo/interface_leds_botoes.vhd    ;
+; C:/Users/Renan/Desktop/PCS3335/Ex6/Codigo/interface_leds_botoes_uc.vhd ;
+; C:/Users/Renan/Desktop/PCS3335/Ex6/Codigo/jogo_tempo_reacao.vhd        ;
+; C:/Users/Renan/Desktop/PCS3335/Ex6/Codigo/jogo_tempo_reacao_tb.vhd     ;
+; C:/Users/Renan/Desktop/PCS3335/Ex6/Codigo/jogo_tempo_reacao_uc.vhd     ;
+; C:/Users/Renan/Desktop/PCS3335/Ex6/Codigo/medidor_largura.vhd          ;
+; C:/Users/Renan/Desktop/PCS3335/Ex6/Codigo/medidor_largura_uc.vhd       ;
+; C:/Users/Renan/Desktop/PCS3335/Ex6/Codigo/pulso_assincrono.vhd         ;
+; jogo_tempo_reacao.qpf                                                  ;
+; jogo_tempo_reacao.qsf                                                  ;
++------------------------------------------------------------------------+
+
+

@@ -1,0 +1,526 @@
+m255
+K4
+z2
+!s11e vcom 2020.1 2020.02, Feb 28 2020
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+dC:/Users/Renan/Desktop/PCS3335/Ex5/Model_sim
+Econt10
+Z0 w1774136497
+Z1 DPx4 ieee 11 numeric_std 0 22 aU^R8eGcicLcUFIaBQSL>3
+Z2 DPx3 std 6 textio 0 22 zE1`LPoLg^DX3Oz^4Fj1K3
+Z3 DPx4 ieee 14 std_logic_1164 0 22 cVAk:aDinOX8^VGI1ekP<3
+!i122 234
+Z4 dC:/Users/Renan/Desktop/PCS3335/Ex6/Modelsim
+Z5 8C:/Users/Renan/Desktop/PCS3335/Ex6/Codigo/cont10.vhd
+Z6 FC:/Users/Renan/Desktop/PCS3335/Ex6/Codigo/cont10.vhd
+l0
+L15 1
+V@J;PnPPYYKon8LWhQ8L>O2
+!s100 hembX>2GTkTG^?31ScIo<0
+Z7 OV;C;2020.1;71
+32
+Z8 !s110 1775918651
+!i10b 1
+Z9 !s108 1775918651.000000
+Z10 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|C:/Users/Renan/Desktop/PCS3335/Ex6/Codigo/cont10.vhd|
+Z11 !s107 C:/Users/Renan/Desktop/PCS3335/Ex6/Codigo/cont10.vhd|
+!i113 1
+Z12 o-work work -2002 -explicit
+Z13 tExplicit 1 CvgOpt 0
+Aarch
+R1
+R2
+R3
+DEx4 work 6 cont10 0 22 @J;PnPPYYKon8LWhQ8L>O2
+!i122 234
+l27
+L25 24
+VXVZSU9zn3g4HfjVUYEHbn3
+!s100 >iCF89Bffo_XoP92VG44f0
+R7
+32
+R8
+!i10b 1
+R9
+R10
+R11
+!i113 1
+R12
+R13
+Econt10_4digitos
+Z14 w1774136500
+R1
+R2
+R3
+!i122 235
+R4
+Z15 8C:/Users/Renan/Desktop/PCS3335/Ex6/Codigo/cont10_4digitos.vhd
+Z16 FC:/Users/Renan/Desktop/PCS3335/Ex6/Codigo/cont10_4digitos.vhd
+l0
+L5 1
+VQIC:F=XdZO>DUGE8gT8[`1
+!s100 =nd2`BWP0=oaCO[3DDhdH3
+R7
+32
+R8
+!i10b 1
+R9
+Z17 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|C:/Users/Renan/Desktop/PCS3335/Ex6/Codigo/cont10_4digitos.vhd|
+Z18 !s107 C:/Users/Renan/Desktop/PCS3335/Ex6/Codigo/cont10_4digitos.vhd|
+!i113 1
+R12
+R13
+Acont10_4
+R1
+R2
+R3
+DEx4 work 15 cont10_4digitos 0 22 QIC:F=XdZO>DUGE8gT8[`1
+!i122 235
+l30
+L18 52
+VO:R5_AgaEe]fIJ`R`cW643
+!s100 8KogVf<AD[YoY;`jIUMBB3
+R7
+32
+R8
+!i10b 1
+R9
+R17
+R18
+!i113 1
+R12
+R13
+Ehex7seg
+Z19 w1774136491
+R2
+R3
+!i122 236
+R4
+Z20 8C:/Users/Renan/Desktop/PCS3335/Ex6/Codigo/hex7seg.vhd
+Z21 FC:/Users/Renan/Desktop/PCS3335/Ex6/Codigo/hex7seg.vhd
+l0
+L14 1
+VHESZ8SAjAjVB[mlH;oRL60
+!s100 ;6^5Uz?@8MjP[VToLCE<F0
+R7
+32
+Z22 !s110 1775918652
+!i10b 1
+R9
+Z23 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|C:/Users/Renan/Desktop/PCS3335/Ex6/Codigo/hex7seg.vhd|
+Z24 !s107 C:/Users/Renan/Desktop/PCS3335/Ex6/Codigo/hex7seg.vhd|
+!i113 1
+R12
+R13
+Aarch
+R2
+R3
+DEx4 work 7 hex7seg 0 22 HESZ8SAjAjVB[mlH;oRL60
+!i122 236
+l22
+L21 33
+VRIT5N1bX6_i3`kgX=n2el2
+!s100 kIDdaE:^J56oX1^NDG0aH3
+R7
+32
+R22
+!i10b 1
+R9
+R23
+R24
+!i113 1
+R12
+R13
+Einterface_leds_botoes
+Z25 w1775596462
+R1
+R2
+R3
+!i122 237
+R4
+Z26 8C:/Users/Renan/Desktop/PCS3335/Ex6/Codigo/interface_leds_botoes.vhd
+Z27 FC:/Users/Renan/Desktop/PCS3335/Ex6/Codigo/interface_leds_botoes.vhd
+l0
+L5 1
+V65i:FTYm0Y74Q6P<6bLoB1
+!s100 URk?>f6BVn>GU`5L:3JTG2
+R7
+32
+R22
+!i10b 1
+Z28 !s108 1775918652.000000
+Z29 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|C:/Users/Renan/Desktop/PCS3335/Ex6/Codigo/interface_leds_botoes.vhd|
+Z30 !s107 C:/Users/Renan/Desktop/PCS3335/Ex6/Codigo/interface_leds_botoes.vhd|
+!i113 1
+R12
+R13
+Abehavioral
+R1
+R2
+R3
+DEx4 work 21 interface_leds_botoes 0 22 65i:FTYm0Y74Q6P<6bLoB1
+!i122 237
+l72
+L22 100
+VV^oKlnd@eO^^7Pk=IBR0k0
+!s100 gnMQ0KDG?`[Q]C8ALDR;l0
+R7
+32
+R22
+!i10b 1
+R28
+R29
+R30
+!i113 1
+R12
+R13
+Einterface_leds_botoes_uc
+Z31 w1775869274
+R1
+R2
+R3
+!i122 238
+R4
+Z32 8C:/Users/Renan/Desktop/PCS3335/Ex6/Codigo/interface_leds_botoes_uc.vhd
+Z33 FC:/Users/Renan/Desktop/PCS3335/Ex6/Codigo/interface_leds_botoes_uc.vhd
+l0
+L5 1
+VN406d>h<KR[7[bUWLD4<e1
+!s100 mkhBd[0>F1oCc<fM3_KFe1
+R7
+32
+R22
+!i10b 1
+R28
+Z34 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|C:/Users/Renan/Desktop/PCS3335/Ex6/Codigo/interface_leds_botoes_uc.vhd|
+Z35 !s107 C:/Users/Renan/Desktop/PCS3335/Ex6/Codigo/interface_leds_botoes_uc.vhd|
+!i113 1
+R12
+R13
+Aarch
+R1
+R2
+R3
+DEx4 work 24 interface_leds_botoes_uc 0 22 N406d>h<KR[7[bUWLD4<e1
+!i122 238
+l28
+L23 102
+VF8Zmkhzc1bJd23:ZS7ePR0
+!s100 zOEUGGUQGNXh5Z=iGikdJ0
+R7
+32
+R22
+!i10b 1
+R28
+R34
+R35
+!i113 1
+R12
+R13
+Ejogo_reacao
+w1775863126
+R1
+R2
+R3
+!i122 125
+R4
+Z36 8C:/Users/Renan/Desktop/PCS3335/Ex6/Codigo/jogo_tempo_reacao.vhd
+Z37 FC:/Users/Renan/Desktop/PCS3335/Ex6/Codigo/jogo_tempo_reacao.vhd
+l0
+L5 1
+Ve;nlTzf^iMH<h@5Xl8OjQ1
+!s100 Z_2j3moGOAV3RR;?6f;lV3
+R7
+32
+!s110 1775863817
+!i10b 1
+!s108 1775863817.000000
+Z38 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|C:/Users/Renan/Desktop/PCS3335/Ex6/Codigo/jogo_tempo_reacao.vhd|
+Z39 !s107 C:/Users/Renan/Desktop/PCS3335/Ex6/Codigo/jogo_tempo_reacao.vhd|
+!i113 1
+R12
+R13
+Abehavioral
+w1775864001
+R1
+R2
+R3
+DEx4 work 11 jogo_reacao 0 22 e;nlTzf^iMH<h@5Xl8OjQ1
+!i122 137
+l89
+Z40 L29 121
+VZdT87fFI^JCEUh91ekn>L1
+!s100 =;`:K5]R_nVl:hiOHnN:F1
+R7
+32
+!s110 1775864037
+!i10b 1
+!s108 1775864037.000000
+R38
+R39
+!i113 1
+R12
+R13
+Ejogo_tempo_reacao
+Z41 w1775921511
+R1
+R2
+R3
+!i122 251
+R4
+R36
+R37
+l0
+L5 1
+Vk_44c]1@m3kK9[WQ:e]YL3
+!s100 hI:d4<j`8>o1l0:Vc<mLY3
+R7
+32
+Z42 !s110 1775921770
+!i10b 1
+Z43 !s108 1775921770.000000
+R38
+R39
+!i113 1
+R12
+R13
+Abehavioral
+R1
+R2
+R3
+Z44 DEx4 work 17 jogo_tempo_reacao 0 22 k_44c]1@m3kK9[WQ:e]YL3
+!i122 251
+l90
+L29 124
+VY1zjV4YcSdf>B15mXA<XZ2
+!s100 e91JaZIEIlFYch@LIXTc92
+R7
+32
+R42
+!i10b 1
+R43
+R38
+R39
+!i113 1
+R12
+R13
+Ejogo_tempo_reacao_tb
+Z45 w1775920443
+R1
+R2
+R3
+!i122 247
+R4
+Z46 8C:/Users/Renan/Desktop/PCS3335/Ex6/Codigo/jogo_tempo_reacao_tb.vhd
+Z47 FC:/Users/Renan/Desktop/PCS3335/Ex6/Codigo/jogo_tempo_reacao_tb.vhd
+l0
+L5 1
+VgI``Bc=ST[NOJm__eJ0?V3
+!s100 CDTF:ai6KD3[e:0`=^g;73
+R7
+32
+Z48 !s110 1775920570
+!i10b 1
+Z49 !s108 1775920570.000000
+Z50 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|C:/Users/Renan/Desktop/PCS3335/Ex6/Codigo/jogo_tempo_reacao_tb.vhd|
+Z51 !s107 C:/Users/Renan/Desktop/PCS3335/Ex6/Codigo/jogo_tempo_reacao_tb.vhd|
+!i113 1
+R12
+R13
+Atb
+R1
+R2
+R3
+DEx4 work 20 jogo_tempo_reacao_tb 0 22 gI``Bc=ST[NOJm__eJ0?V3
+!i122 247
+l53
+L8 136
+VS<H7JUUa^[1d9Uac0TUAC0
+!s100 GSNlVLANZZY_nFLlb<BBK0
+R7
+32
+R48
+!i10b 1
+R49
+R50
+R51
+!i113 1
+R12
+R13
+Ejogo_tempo_reacao_uc
+Z52 w1775865288
+R1
+R2
+R3
+!i122 241
+R4
+Z53 8C:/Users/Renan/Desktop/PCS3335/Ex6/Codigo/jogo_tempo_reacao_uc.vhd
+Z54 FC:/Users/Renan/Desktop/PCS3335/Ex6/Codigo/jogo_tempo_reacao_uc.vhd
+l0
+L5 1
+VdDBT6]YcfFIfLSPTI6bIM1
+!s100 B0B316i8kjC5VQjLgPlI;1
+R7
+32
+Z55 !s110 1775918653
+!i10b 1
+Z56 !s108 1775918653.000000
+Z57 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|C:/Users/Renan/Desktop/PCS3335/Ex6/Codigo/jogo_tempo_reacao_uc.vhd|
+Z58 !s107 C:/Users/Renan/Desktop/PCS3335/Ex6/Codigo/jogo_tempo_reacao_uc.vhd|
+!i113 1
+R12
+R13
+Aarch
+R1
+R2
+R3
+DEx4 work 20 jogo_tempo_reacao_uc 0 22 dDBT6]YcfFIfLSPTI6bIM1
+!i122 241
+l24
+L19 71
+VE72o=>bB_jR91B7nJaR7J3
+!s100 hmVJc[]QAH:mhI16;@1X<1
+R7
+32
+R55
+!i10b 1
+R56
+R57
+R58
+!i113 1
+R12
+R13
+Emedidor_largura
+Z59 w1775869133
+R1
+R2
+R3
+!i122 242
+R4
+Z60 8C:/Users/Renan/Desktop/PCS3335/Ex6/Codigo/medidor_largura.vhd
+Z61 FC:/Users/Renan/Desktop/PCS3335/Ex6/Codigo/medidor_largura.vhd
+l0
+L5 1
+VZ72joV=5k7UOD_fD6_n_f1
+!s100 nRmWYIHh]g9;R6TL=z;J11
+R7
+32
+Z62 !s110 1775918654
+!i10b 1
+Z63 !s108 1775918654.000000
+Z64 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|C:/Users/Renan/Desktop/PCS3335/Ex6/Codigo/medidor_largura.vhd|
+Z65 !s107 C:/Users/Renan/Desktop/PCS3335/Ex6/Codigo/medidor_largura.vhd|
+!i113 1
+R12
+R13
+Aarch
+R1
+R2
+R3
+DEx4 work 15 medidor_largura 0 22 Z72joV=5k7UOD_fD6_n_f1
+!i122 242
+l68
+L30 110
+V^eT1DQLWZC=S^C7KnhC6j2
+!s100 []QnQb2ZIG:2MB8J[oWOB2
+R7
+32
+R62
+!i10b 1
+R63
+R64
+R65
+!i113 1
+R12
+R13
+Emedidor_largura_uc
+Z66 w1775920008
+R1
+R2
+R3
+!i122 248
+R4
+Z67 8C:/Users/Renan/Desktop/PCS3335/Ex6/Codigo/medidor_largura_uc.vhd
+Z68 FC:/Users/Renan/Desktop/PCS3335/Ex6/Codigo/medidor_largura_uc.vhd
+l0
+L5 1
+VSD6[_<Yf7kJ_YafZ16O;B1
+!s100 3bZ:375=nfA`aiG?>BI;^2
+R7
+32
+Z69 !s110 1775920571
+!i10b 1
+R49
+Z70 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|C:/Users/Renan/Desktop/PCS3335/Ex6/Codigo/medidor_largura_uc.vhd|
+Z71 !s107 C:/Users/Renan/Desktop/PCS3335/Ex6/Codigo/medidor_largura_uc.vhd|
+!i113 1
+R12
+R13
+Aarch
+R1
+R2
+R3
+DEx4 work 18 medidor_largura_uc 0 22 SD6[_<Yf7kJ_YafZ16O;B1
+!i122 248
+l23
+L19 67
+V2d5Cm`:oKm=<Fi?kVV92j2
+!s100 kTmEHbL<M<Ge[930I9hmL2
+R7
+32
+R69
+!i10b 1
+R49
+R70
+R71
+!i113 1
+R12
+R13
+Epulso_assincrono
+Z72 w1775590978
+R1
+R2
+R3
+!i122 244
+R4
+Z73 8C:/Users/Renan/Desktop/PCS3335/Ex6/Codigo/pulso_assincrono.vhd
+Z74 FC:/Users/Renan/Desktop/PCS3335/Ex6/Codigo/pulso_assincrono.vhd
+l0
+L5 1
+V07VejBQgA_OnV8Hn?eXG<2
+!s100 mJ7Z>KK98<[XC2GlJj?X?1
+R7
+32
+Z75 !s110 1775918656
+!i10b 1
+Z76 !s108 1775918655.000000
+Z77 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|C:/Users/Renan/Desktop/PCS3335/Ex6/Codigo/pulso_assincrono.vhd|
+Z78 !s107 C:/Users/Renan/Desktop/PCS3335/Ex6/Codigo/pulso_assincrono.vhd|
+!i113 1
+R12
+R13
+Aarch
+R1
+R2
+R3
+DEx4 work 16 pulso_assincrono 0 22 07VejBQgA_OnV8Hn?eXG<2
+!i122 244
+l15
+L13 15
+VfHa>TO^Lo<LFlza8OYfeK3
+!s100 FKQ_OkX0l^3C^SAk^Lia_2
+R7
+32
+R75
+!i10b 1
+R76
+R77
+R78
+!i113 1
+R12
+R13

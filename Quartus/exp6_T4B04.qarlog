@@ -1,0 +1,25 @@
+Quartus Prime Archive log --	C:/Users/Renan/Desktop/PCS3335/Ex6/Quartus/exp6_T4B04.qarlog
+
+Archive:	C:/Users/Renan/Desktop/PCS3335/Ex6/Quartus/exp6_T4B04.qar
+Date:		Sat Apr 11 12:38:31 2026
+Quartus Prime		24.1std.0 Build 1077 03/04/2025 SC Lite Edition
+
+	=========== Files Selected: ===========
+C:/Users/Renan/Desktop/PCS3335/Ex6/Codigo/cont10.vhd
+C:/Users/Renan/Desktop/PCS3335/Ex6/Codigo/cont10_4digitos.vhd
+C:/Users/Renan/Desktop/PCS3335/Ex6/Codigo/hex7seg.vhd
+C:/Users/Renan/Desktop/PCS3335/Ex6/Codigo/interface_leds_botoes.vhd
+C:/Users/Renan/Desktop/PCS3335/Ex6/Codigo/interface_leds_botoes_uc.vhd
+C:/Users/Renan/Desktop/PCS3335/Ex6/Codigo/jogo_tempo_reacao.vhd
+C:/Users/Renan/Desktop/PCS3335/Ex6/Codigo/jogo_tempo_reacao_tb.vhd
+C:/Users/Renan/Desktop/PCS3335/Ex6/Codigo/jogo_tempo_reacao_uc.vhd
+C:/Users/Renan/Desktop/PCS3335/Ex6/Codigo/medidor_largura.vhd
+C:/Users/Renan/Desktop/PCS3335/Ex6/Codigo/medidor_largura_uc.vhd
+C:/Users/Renan/Desktop/PCS3335/Ex6/Codigo/pulso_assincrono.vhd
+C:/Users/Renan/Desktop/PCS3335/Ex6/Quartus/jogo_tempo_reacao.qpf
+C:/Users/Renan/Desktop/PCS3335/Ex6/Quartus/jogo_tempo_reacao.qsf
+c:/intelfpga_lite/24.1std/quartus/bin64/assignment_defaults.qdf
+	======= Total: 14 files to archive =======
+
+	================ Status: ===============
+All files archived successfully.

@@ -1,0 +1,25 @@
+
+State Machine - |jogo_tempo_reacao|jogo_tempo_reacao_uc:U3|estado
+Name estado.erro estado.fim estado.contador estado.liga estado.inicial 
+estado.inicial 0 0 0 0 0 
+estado.liga 0 0 0 1 1 
+estado.contador 0 0 1 0 1 
+estado.fim 0 1 0 0 1 
+estado.erro 1 0 0 0 1 
+
+State Machine - |jogo_tempo_reacao|medidor_largura:U2|medidor_largura_uc:control|estado
+Name estado.espera estado.fim estado.conta estado.prepara estado.ligado estado.inicial 
+estado.inicial 0 0 0 0 0 0 
+estado.ligado 0 0 0 0 1 1 
+estado.prepara 0 0 0 1 0 1 
+estado.conta 0 0 1 0 0 1 
+estado.fim 0 1 0 0 0 1 
+estado.espera 1 0 0 0 0 1 
+
+State Machine - |jogo_tempo_reacao|interface_leds_botoes:U1|interface_leds_botoes_uc:uc|estado
+Name estado.burlou estado.fim estado.conta estado.liga estado.inicial 
+estado.inicial 0 0 0 0 0 
+estado.liga 0 0 0 1 1 
+estado.conta 0 0 1 0 1 
+estado.fim 0 1 0 0 1 
+estado.burlou 1 0 0 0 1 

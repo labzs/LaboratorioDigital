@@ -1,0 +1,421 @@
+------------------------------------------------------------
+Timing Analyzer Summary
+------------------------------------------------------------
+
+Type  : Slow 1100mV 85C Model Setup 'interface_leds_botoes:U1|interface_leds_botoes_uc:uc|estado.fim'
+Slack : -4.375
+TNS   : -4.375
+
+Type  : Slow 1100mV 85C Model Setup 'jogo_tempo_reacao_uc:U3|estado.contador'
+Slack : -3.971
+TNS   : -3.971
+
+Type  : Slow 1100mV 85C Model Setup 'clock'
+Slack : -3.903
+TNS   : -134.748
+
+Type  : Slow 1100mV 85C Model Setup 'interface_leds_botoes:U1|interface_leds_botoes_uc:uc|estado.burlou'
+Slack : -3.715
+TNS   : -5.312
+
+Type  : Slow 1100mV 85C Model Setup 'interface_leds_botoes:U1|interface_leds_botoes_uc:uc|estado.inicial'
+Slack : -3.528
+TNS   : -4.954
+
+Type  : Slow 1100mV 85C Model Setup 'medidor_largura:U2|medidor_largura_uc:control|estado.conta'
+Slack : -3.153
+TNS   : -3.153
+
+Type  : Slow 1100mV 85C Model Setup 'medidor_largura:U2|medidor_largura_uc:control|estado.espera'
+Slack : -2.282
+TNS   : -4.381
+
+Type  : Slow 1100mV 85C Model Setup 'jogo_tempo_reacao_uc:U3|estado.fim'
+Slack : -1.336
+TNS   : -1.336
+
+Type  : Slow 1100mV 85C Model Hold 'clock'
+Slack : -0.613
+TNS   : -0.613
+
+Type  : Slow 1100mV 85C Model Hold 'interface_leds_botoes:U1|interface_leds_botoes_uc:uc|estado.inicial'
+Slack : 0.267
+TNS   : 0.000
+
+Type  : Slow 1100mV 85C Model Hold 'jogo_tempo_reacao_uc:U3|estado.fim'
+Slack : 0.459
+TNS   : 0.000
+
+Type  : Slow 1100mV 85C Model Hold 'medidor_largura:U2|medidor_largura_uc:control|estado.espera'
+Slack : 0.510
+TNS   : 0.000
+
+Type  : Slow 1100mV 85C Model Hold 'interface_leds_botoes:U1|interface_leds_botoes_uc:uc|estado.burlou'
+Slack : 0.569
+TNS   : 0.000
+
+Type  : Slow 1100mV 85C Model Hold 'medidor_largura:U2|medidor_largura_uc:control|estado.conta'
+Slack : 2.401
+TNS   : 0.000
+
+Type  : Slow 1100mV 85C Model Hold 'jogo_tempo_reacao_uc:U3|estado.contador'
+Slack : 3.156
+TNS   : 0.000
+
+Type  : Slow 1100mV 85C Model Hold 'interface_leds_botoes:U1|interface_leds_botoes_uc:uc|estado.fim'
+Slack : 3.193
+TNS   : 0.000
+
+Type  : Slow 1100mV 85C Model Recovery 'clock'
+Slack : -2.687
+TNS   : -76.944
+
+Type  : Slow 1100mV 85C Model Removal 'clock'
+Slack : 0.992
+TNS   : 0.000
+
+Type  : Slow 1100mV 85C Model Minimum Pulse Width 'clock'
+Slack : -0.538
+TNS   : -38.823
+
+Type  : Slow 1100mV 85C Model Minimum Pulse Width 'medidor_largura:U2|medidor_largura_uc:control|estado.espera'
+Slack : 0.270
+TNS   : 0.000
+
+Type  : Slow 1100mV 85C Model Minimum Pulse Width 'interface_leds_botoes:U1|interface_leds_botoes_uc:uc|estado.inicial'
+Slack : 0.328
+TNS   : 0.000
+
+Type  : Slow 1100mV 85C Model Minimum Pulse Width 'medidor_largura:U2|medidor_largura_uc:control|estado.conta'
+Slack : 0.332
+TNS   : 0.000
+
+Type  : Slow 1100mV 85C Model Minimum Pulse Width 'interface_leds_botoes:U1|interface_leds_botoes_uc:uc|estado.burlou'
+Slack : 0.412
+TNS   : 0.000
+
+Type  : Slow 1100mV 85C Model Minimum Pulse Width 'jogo_tempo_reacao_uc:U3|estado.fim'
+Slack : 0.436
+TNS   : 0.000
+
+Type  : Slow 1100mV 85C Model Minimum Pulse Width 'jogo_tempo_reacao_uc:U3|estado.contador'
+Slack : 0.438
+TNS   : 0.000
+
+Type  : Slow 1100mV 85C Model Minimum Pulse Width 'interface_leds_botoes:U1|interface_leds_botoes_uc:uc|estado.fim'
+Slack : 0.452
+TNS   : 0.000
+
+Type  : Slow 1100mV 0C Model Setup 'interface_leds_botoes:U1|interface_leds_botoes_uc:uc|estado.fim'
+Slack : -4.456
+TNS   : -4.456
+
+Type  : Slow 1100mV 0C Model Setup 'jogo_tempo_reacao_uc:U3|estado.contador'
+Slack : -4.082
+TNS   : -4.082
+
+Type  : Slow 1100mV 0C Model Setup 'interface_leds_botoes:U1|interface_leds_botoes_uc:uc|estado.burlou'
+Slack : -3.790
+TNS   : -5.381
+
+Type  : Slow 1100mV 0C Model Setup 'clock'
+Slack : -3.755
+TNS   : -125.071
+
+Type  : Slow 1100mV 0C Model Setup 'interface_leds_botoes:U1|interface_leds_botoes_uc:uc|estado.inicial'
+Slack : -3.670
+TNS   : -5.084
+
+Type  : Slow 1100mV 0C Model Setup 'medidor_largura:U2|medidor_largura_uc:control|estado.conta'
+Slack : -3.300
+TNS   : -3.300
+
+Type  : Slow 1100mV 0C Model Setup 'medidor_largura:U2|medidor_largura_uc:control|estado.espera'
+Slack : -2.281
+TNS   : -4.399
+
+Type  : Slow 1100mV 0C Model Setup 'jogo_tempo_reacao_uc:U3|estado.fim'
+Slack : -1.277
+TNS   : -1.277
+
+Type  : Slow 1100mV 0C Model Hold 'clock'
+Slack : -0.756
+TNS   : -0.756
+
+Type  : Slow 1100mV 0C Model Hold 'interface_leds_botoes:U1|interface_leds_botoes_uc:uc|estado.inicial'
+Slack : 0.202
+TNS   : 0.000
+
+Type  : Slow 1100mV 0C Model Hold 'medidor_largura:U2|medidor_largura_uc:control|estado.espera'
+Slack : 0.380
+TNS   : 0.000
+
+Type  : Slow 1100mV 0C Model Hold 'jogo_tempo_reacao_uc:U3|estado.fim'
+Slack : 0.445
+TNS   : 0.000
+
+Type  : Slow 1100mV 0C Model Hold 'interface_leds_botoes:U1|interface_leds_botoes_uc:uc|estado.burlou'
+Slack : 0.600
+TNS   : 0.000
+
+Type  : Slow 1100mV 0C Model Hold 'medidor_largura:U2|medidor_largura_uc:control|estado.conta'
+Slack : 2.486
+TNS   : 0.000
+
+Type  : Slow 1100mV 0C Model Hold 'jogo_tempo_reacao_uc:U3|estado.contador'
+Slack : 3.160
+TNS   : 0.000
+
+Type  : Slow 1100mV 0C Model Hold 'interface_leds_botoes:U1|interface_leds_botoes_uc:uc|estado.fim'
+Slack : 3.188
+TNS   : 0.000
+
+Type  : Slow 1100mV 0C Model Recovery 'clock'
+Slack : -2.372
+TNS   : -65.789
+
+Type  : Slow 1100mV 0C Model Removal 'clock'
+Slack : 0.623
+TNS   : 0.000
+
+Type  : Slow 1100mV 0C Model Minimum Pulse Width 'clock'
+Slack : -0.538
+TNS   : -40.678
+
+Type  : Slow 1100mV 0C Model Minimum Pulse Width 'medidor_largura:U2|medidor_largura_uc:control|estado.espera'
+Slack : 0.295
+TNS   : 0.000
+
+Type  : Slow 1100mV 0C Model Minimum Pulse Width 'interface_leds_botoes:U1|interface_leds_botoes_uc:uc|estado.inicial'
+Slack : 0.308
+TNS   : 0.000
+
+Type  : Slow 1100mV 0C Model Minimum Pulse Width 'interface_leds_botoes:U1|interface_leds_botoes_uc:uc|estado.burlou'
+Slack : 0.345
+TNS   : 0.000
+
+Type  : Slow 1100mV 0C Model Minimum Pulse Width 'medidor_largura:U2|medidor_largura_uc:control|estado.conta'
+Slack : 0.349
+TNS   : 0.000
+
+Type  : Slow 1100mV 0C Model Minimum Pulse Width 'jogo_tempo_reacao_uc:U3|estado.fim'
+Slack : 0.425
+TNS   : 0.000
+
+Type  : Slow 1100mV 0C Model Minimum Pulse Width 'jogo_tempo_reacao_uc:U3|estado.contador'
+Slack : 0.427
+TNS   : 0.000
+
+Type  : Slow 1100mV 0C Model Minimum Pulse Width 'interface_leds_botoes:U1|interface_leds_botoes_uc:uc|estado.fim'
+Slack : 0.434
+TNS   : 0.000
+
+Type  : Fast 1100mV 85C Model Setup 'interface_leds_botoes:U1|interface_leds_botoes_uc:uc|estado.fim'
+Slack : -1.733
+TNS   : -1.733
+
+Type  : Fast 1100mV 85C Model Setup 'clock'
+Slack : -1.640
+TNS   : -59.520
+
+Type  : Fast 1100mV 85C Model Setup 'jogo_tempo_reacao_uc:U3|estado.contador'
+Slack : -1.497
+TNS   : -1.497
+
+Type  : Fast 1100mV 85C Model Setup 'interface_leds_botoes:U1|interface_leds_botoes_uc:uc|estado.burlou'
+Slack : -1.362
+TNS   : -1.813
+
+Type  : Fast 1100mV 85C Model Setup 'interface_leds_botoes:U1|interface_leds_botoes_uc:uc|estado.inicial'
+Slack : -1.261
+TNS   : -1.775
+
+Type  : Fast 1100mV 85C Model Setup 'medidor_largura:U2|medidor_largura_uc:control|estado.espera'
+Slack : -1.124
+TNS   : -2.162
+
+Type  : Fast 1100mV 85C Model Setup 'medidor_largura:U2|medidor_largura_uc:control|estado.conta'
+Slack : -1.100
+TNS   : -1.100
+
+Type  : Fast 1100mV 85C Model Setup 'jogo_tempo_reacao_uc:U3|estado.fim'
+Slack : -0.345
+TNS   : -0.345
+
+Type  : Fast 1100mV 85C Model Hold 'clock'
+Slack : -0.482
+TNS   : -0.482
+
+Type  : Fast 1100mV 85C Model Hold 'interface_leds_botoes:U1|interface_leds_botoes_uc:uc|estado.inicial'
+Slack : 0.203
+TNS   : 0.000
+
+Type  : Fast 1100mV 85C Model Hold 'jogo_tempo_reacao_uc:U3|estado.fim'
+Slack : 0.325
+TNS   : 0.000
+
+Type  : Fast 1100mV 85C Model Hold 'medidor_largura:U2|medidor_largura_uc:control|estado.espera'
+Slack : 0.365
+TNS   : 0.000
+
+Type  : Fast 1100mV 85C Model Hold 'interface_leds_botoes:U1|interface_leds_botoes_uc:uc|estado.burlou'
+Slack : 0.435
+TNS   : 0.000
+
+Type  : Fast 1100mV 85C Model Hold 'medidor_largura:U2|medidor_largura_uc:control|estado.conta'
+Slack : 1.338
+TNS   : 0.000
+
+Type  : Fast 1100mV 85C Model Hold 'jogo_tempo_reacao_uc:U3|estado.contador'
+Slack : 1.728
+TNS   : 0.000
+
+Type  : Fast 1100mV 85C Model Hold 'interface_leds_botoes:U1|interface_leds_botoes_uc:uc|estado.fim'
+Slack : 1.742
+TNS   : 0.000
+
+Type  : Fast 1100mV 85C Model Recovery 'clock'
+Slack : -1.347
+TNS   : -36.684
+
+Type  : Fast 1100mV 85C Model Removal 'clock'
+Slack : 0.446
+TNS   : 0.000
+
+Type  : Fast 1100mV 85C Model Minimum Pulse Width 'clock'
+Slack : -0.093
+TNS   : -4.547
+
+Type  : Fast 1100mV 85C Model Minimum Pulse Width 'medidor_largura:U2|medidor_largura_uc:control|estado.espera'
+Slack : 0.299
+TNS   : 0.000
+
+Type  : Fast 1100mV 85C Model Minimum Pulse Width 'medidor_largura:U2|medidor_largura_uc:control|estado.conta'
+Slack : 0.392
+TNS   : 0.000
+
+Type  : Fast 1100mV 85C Model Minimum Pulse Width 'interface_leds_botoes:U1|interface_leds_botoes_uc:uc|estado.inicial'
+Slack : 0.435
+TNS   : 0.000
+
+Type  : Fast 1100mV 85C Model Minimum Pulse Width 'interface_leds_botoes:U1|interface_leds_botoes_uc:uc|estado.burlou'
+Slack : 0.458
+TNS   : 0.000
+
+Type  : Fast 1100mV 85C Model Minimum Pulse Width 'jogo_tempo_reacao_uc:U3|estado.fim'
+Slack : 0.472
+TNS   : 0.000
+
+Type  : Fast 1100mV 85C Model Minimum Pulse Width 'jogo_tempo_reacao_uc:U3|estado.contador'
+Slack : 0.482
+TNS   : 0.000
+
+Type  : Fast 1100mV 85C Model Minimum Pulse Width 'interface_leds_botoes:U1|interface_leds_botoes_uc:uc|estado.fim'
+Slack : 0.491
+TNS   : 0.000
+
+Type  : Fast 1100mV 0C Model Setup 'interface_leds_botoes:U1|interface_leds_botoes_uc:uc|estado.fim'
+Slack : -1.637
+TNS   : -1.637
+
+Type  : Fast 1100mV 0C Model Setup 'jogo_tempo_reacao_uc:U3|estado.contador'
+Slack : -1.431
+TNS   : -1.431
+
+Type  : Fast 1100mV 0C Model Setup 'clock'
+Slack : -1.325
+TNS   : -43.565
+
+Type  : Fast 1100mV 0C Model Setup 'interface_leds_botoes:U1|interface_leds_botoes_uc:uc|estado.burlou'
+Slack : -1.304
+TNS   : -1.679
+
+Type  : Fast 1100mV 0C Model Setup 'interface_leds_botoes:U1|interface_leds_botoes_uc:uc|estado.inicial'
+Slack : -1.219
+TNS   : -1.645
+
+Type  : Fast 1100mV 0C Model Setup 'medidor_largura:U2|medidor_largura_uc:control|estado.conta'
+Slack : -1.079
+TNS   : -1.079
+
+Type  : Fast 1100mV 0C Model Setup 'medidor_largura:U2|medidor_largura_uc:control|estado.espera'
+Slack : -0.941
+TNS   : -1.798
+
+Type  : Fast 1100mV 0C Model Setup 'jogo_tempo_reacao_uc:U3|estado.fim'
+Slack : -0.264
+TNS   : -0.264
+
+Type  : Fast 1100mV 0C Model Hold 'clock'
+Slack : -0.586
+TNS   : -0.586
+
+Type  : Fast 1100mV 0C Model Hold 'interface_leds_botoes:U1|interface_leds_botoes_uc:uc|estado.inicial'
+Slack : 0.162
+TNS   : 0.000
+
+Type  : Fast 1100mV 0C Model Hold 'medidor_largura:U2|medidor_largura_uc:control|estado.espera'
+Slack : 0.277
+TNS   : 0.000
+
+Type  : Fast 1100mV 0C Model Hold 'jogo_tempo_reacao_uc:U3|estado.fim'
+Slack : 0.279
+TNS   : 0.000
+
+Type  : Fast 1100mV 0C Model Hold 'interface_leds_botoes:U1|interface_leds_botoes_uc:uc|estado.burlou'
+Slack : 0.393
+TNS   : 0.000
+
+Type  : Fast 1100mV 0C Model Hold 'medidor_largura:U2|medidor_largura_uc:control|estado.conta'
+Slack : 1.344
+TNS   : 0.000
+
+Type  : Fast 1100mV 0C Model Hold 'jogo_tempo_reacao_uc:U3|estado.contador'
+Slack : 1.681
+TNS   : 0.000
+
+Type  : Fast 1100mV 0C Model Hold 'interface_leds_botoes:U1|interface_leds_botoes_uc:uc|estado.fim'
+Slack : 1.689
+TNS   : 0.000
+
+Type  : Fast 1100mV 0C Model Recovery 'clock'
+Slack : -0.870
+TNS   : -21.788
+
+Type  : Fast 1100mV 0C Model Removal 'clock'
+Slack : 0.294
+TNS   : 0.000
+
+Type  : Fast 1100mV 0C Model Minimum Pulse Width 'clock'
+Slack : -0.093
+TNS   : -4.526
+
+Type  : Fast 1100mV 0C Model Minimum Pulse Width 'medidor_largura:U2|medidor_largura_uc:control|estado.espera'
+Slack : 0.330
+TNS   : 0.000
+
+Type  : Fast 1100mV 0C Model Minimum Pulse Width 'medidor_largura:U2|medidor_largura_uc:control|estado.conta'
+Slack : 0.411
+TNS   : 0.000
+
+Type  : Fast 1100mV 0C Model Minimum Pulse Width 'interface_leds_botoes:U1|interface_leds_botoes_uc:uc|estado.inicial'
+Slack : 0.436
+TNS   : 0.000
+
+Type  : Fast 1100mV 0C Model Minimum Pulse Width 'interface_leds_botoes:U1|interface_leds_botoes_uc:uc|estado.burlou'
+Slack : 0.462
+TNS   : 0.000
+
+Type  : Fast 1100mV 0C Model Minimum Pulse Width 'jogo_tempo_reacao_uc:U3|estado.fim'
+Slack : 0.476
+TNS   : 0.000
+
+Type  : Fast 1100mV 0C Model Minimum Pulse Width 'jogo_tempo_reacao_uc:U3|estado.contador'
+Slack : 0.480
+TNS   : 0.000
+
+Type  : Fast 1100mV 0C Model Minimum Pulse Width 'interface_leds_botoes:U1|interface_leds_botoes_uc:uc|estado.fim'
+Slack : 0.485
+TNS   : 0.000
+
+------------------------------------------------------------

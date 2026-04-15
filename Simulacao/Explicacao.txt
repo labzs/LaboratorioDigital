@@ -1,0 +1,3 @@
+Há o reset inicial, após isso é executado o primeiro caso.
+-Caso 1: Tempo de reação ser burlar, tempo de reação = 5 clocks, saída esperada do contador 4 clocks (pois o contador conta um a menos que a medida real).
+-Caso 2: Burla da reação, o display apresenta o número 9999 como erro e só volta a condição normal após um reset é feito.
