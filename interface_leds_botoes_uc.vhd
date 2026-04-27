@@ -7,7 +7,8 @@ ENTITY interface_leds_botoes_uc IS
         clock : IN STD_LOGIC;
         reset : IN STD_LOGIC;
         iniciar : IN STD_LOGIC;
-        resposta : IN STD_LOGIC;
+        resposta1 : IN STD_LOGIC;
+        resposta2 : IN STD_LOGIC;
         rco : IN STD_LOGIC;
         ligado : OUT STD_LOGIC;
         estimulo : OUT STD_LOGIC;
@@ -21,7 +22,7 @@ ENTITY interface_leds_botoes_uc IS
 END ENTITY interface_leds_botoes_uc;
 
 ARCHITECTURE arch OF interface_leds_botoes_uc IS
-    TYPE tipo_estado IS (inicial, liga, conta, fim, burlou);
+    TYPE tipo_estado IS (inicial, liga, modo, conta, fim, burlou, recorde, resposta2);
     SIGNAL estado, posterior : tipo_estado;
     SIGNAL burla_state, fim_state, liga_state : STD_LOGIC := '0';
 
@@ -46,8 +47,10 @@ BEGIN
             burla_state <= '0';
         END IF;
 
-        IF resposta = '1' AND estado = conta THEN
+        IF modo1 ='1' AND resposta1 = '1' AND estado = conta THEN
             fim_state <= '1';
+        ELSIF modo2 ='1' AND resposta1 = '1' AND resposta2 = '1'  AND estado = conta THEN
+            fim_state <= '1';    
         ELSIF rising_edge(clock) THEN
             fim_state <= '0';
         END IF;
@@ -58,11 +61,12 @@ BEGIN
             liga_state <= '0';
         END IF;
     END PROCESS assinc;
+
     maquina : PROCESS (estado, resposta, rco, iniciar)
     BEGIN
         CASE estado IS
             WHEN inicial =>
-                db_estado <= "0001";
+                db_estado <= "0001"; --1
                 contaCont <= '0';
                 ligado <= '0';
                 erro <= '0';
@@ -76,45 +80,79 @@ BEGIN
                 END IF;
 
             WHEN liga =>
-                db_estado <= "0010";
+                db_estado <= "0010"; --2
                 zeraCont <= '0';
                 contaCont <= '1';
                 ligado <= '1';
                 IF rco = '1' THEN
-                    posterior <= conta;
+                    posterior <= modo;
                 ELSIF resposta = '1' OR burla_state = '1' THEN
                     posterior <= burlou;
                 ELSE
                     posterior <= liga;
                 END IF;
+            
+             WHEN modo =>
+                db_estado <= "0011"; --3
+                zeraCont <= '0';
+                contaCont <= '1';
+                ligado <= '1';
+                IF rco = '1' THEN
+                    posterior <= conta;
+                ELSIF (resposta1 = '1'OR resposta2 = '1' OR burla_state = '1') OR (modo1 XNOR modo2 = '1') THEN
+                    posterior <= burlou;
+                ELSE
+                    posterior <= modo;
+                END IF;
 
             WHEN conta =>
-                db_estado <= "0011";
+                db_estado <= "0100"; --4
                 estimulo <= '1';
                 contaCont <= '0';
-                IF resposta = '1' OR fim_state = '1' THEN
+                IF modo1 = '1'AND (resposta1 = '1' OR fim_state = '1') THEN
                     posterior <= fim;
+                ELSIF modo2 = '1' THEN
+                    IF (resposta1 = '1' AND resposta2 = '1') OR fim_state = '1' THEN
+                        posterior <= fim;                     
                 ELSE
                     posterior <= conta;
                 END IF;
 
             WHEN fim =>
-                db_estado <= "0101";
+                db_estado <= "0101"; --5
                 estimulo <= '0';
                 pronto <= '1';
                 ligado <= '0';
-                IF resposta = '0' THEN
-                    posterior <= inicial;
+                IF modo1 = '1' AND (contador_fim = '1') THEN
+                    posterior <= recorde;
+                ELSIF modo2 = '1' AND (contador_fim = '1') THEN
+                    posterior <= resposta2;
                 ELSE
                     posterior <= fim;
+                END IF;
+            
+             WHEN resposta2 =>
+                 db_estado <= "0110"; --6
+                IF contador_fim = '1' THEN
+                    posterior <= recorde;
+                ELSE
+                    posterior <= resposta2;
+                END IF;
+                
+            WHEN recorde =>
+                db_estado <= "0111"; --7
+                IF iniciar = '0' THEN
+                    posterior <= inicial;
+                ELSE
+                    posterior <= recorde;
                 END IF;
 
             WHEN burlou =>
                 contaCont <= '0';
                 erro <= '1';
                 ligado <= '0';
-                db_estado <= "0100";
-                IF resposta = '0' THEN
+                db_estado <= "1001"; --9
+                IF (resposta1 = '0' AND resposta2 = '0') THEN
                     posterior <= inicial;
                 ELSE
                     posterior <= burlou;
