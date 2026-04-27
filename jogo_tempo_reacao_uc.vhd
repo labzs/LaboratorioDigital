@@ -17,7 +17,7 @@ ENTITY jogo_tempo_reacao_uc IS
 END ENTITY jogo_tempo_reacao_uc;
 
 ARCHITECTURE arch OF jogo_tempo_reacao_uc IS
-    TYPE tipo_estado IS (inicial, liga, contador, fim, erro);
+    TYPE tipo_estado IS (inicial, liga, modo, contador, fim, erro);
     SIGNAL estado, posterior : tipo_estado;
     SIGNAL liga_state : STD_LOGIC := '0';
 
@@ -46,7 +46,7 @@ BEGIN
     BEGIN
         CASE estado IS
             WHEN inicial =>
-                db_estado <= "0001";
+                db_estado <= "0001"; --1
                 pronto <= '0';
                 iniciar <= '0';
                 IF jogar = '1' OR liga_state = '1' THEN
@@ -56,17 +56,29 @@ BEGIN
                 END IF;
 
             WHEN liga =>
-                db_estado <= "0010";
+                db_estado <= "0010"; --2
                 iniciar <= '1';
                 IF erro_interface = '1' THEN
                     posterior <= erro;
-                ELSIF estimulo = '1' THEN
-                    posterior <= contador;
+                ELSIF selecao_modulo = '1' THEN
+                    posterior <= modo;
                 ELSE
                     posterior <= liga;
                 END IF;
 
+            WHEN modo =>
+                db_estado <= "0011"; --3
+                iniciar <= '1';
+                IF modo1 = '1' XNOR modo2 ='1' THEN
+                    posterior <= erro;
+                ELSIF modo1 = '1' XOR modo2 ='1' THEN 
+                    posterior <= contador;
+                ELSE
+                    posterior <= modo;
+                END IF;
+
             WHEN contador =>
+                db_estado <= "0100"; --4
                 IF pronto_medidor = '1' THEN
                     posterior <= fim;
                 ELSE
@@ -74,7 +86,7 @@ BEGIN
                 END IF;
 
             WHEN fim =>
-                db_estado <= "0101";
+                db_estado <= "0101"; --5
                 pronto <= '1';
                 iniciar <= '0';
                 posterior <= inicial;
