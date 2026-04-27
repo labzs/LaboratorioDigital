@@ -7,11 +7,14 @@ ENTITY interface_leds_botoes IS
         clock : IN STD_LOGIC;
         reset : IN STD_LOGIC;
         iniciar : IN STD_LOGIC;
-        resposta : IN STD_LOGIC;
+        resposta1 : IN STD_LOGIC;
+        resposta2 : IN STD_LOGIC;
         ligado : OUT STD_LOGIC;
         estimulo : OUT STD_LOGIC;
-        pulso : OUT STD_LOGIC;
-        pulso_scope : OUT STD_LOGIC;
+        pulso1 : OUT STD_LOGIC;
+        pulso2 : OUT STD_LOGIC;
+        pulso_scope1 : OUT STD_LOGIC;
+        pulso_scope2 : OUT STD_LOGIC;
         erro : OUT STD_LOGIC;
         pronto : OUT STD_LOGIC;
         burlou_assinc : OUT STD_LOGIC;
@@ -22,19 +25,21 @@ END ENTITY interface_leds_botoes;
 ARCHITECTURE Behavioral OF interface_leds_botoes IS
     COMPONENT interface_leds_botoes_uc IS
         PORT (
-            clock : IN STD_LOGIC;
-            reset : IN STD_LOGIC;
-            iniciar : IN STD_LOGIC;
-            resposta : IN STD_LOGIC;
-            rco : IN STD_LOGIC;
-            ligado : OUT STD_LOGIC;
-            estimulo : OUT STD_LOGIC;
-            erro : OUT STD_LOGIC;
-            pronto : OUT STD_LOGIC;
-            contaCont : OUT STD_LOGIC;
-            burlou_assinc : OUT STD_LOGIC;
-            zeraCont : OUT STD_LOGIC;
-            db_estado : OUT STD_LOGIC_VECTOR(3 DOWNTO 0)
+        clock : IN STD_LOGIC;
+        reset : IN STD_LOGIC;
+        iniciar : IN STD_LOGIC;
+        resposta1 : IN STD_LOGIC;
+        resposta2 : IN STD_LOGIC;
+        ligado : OUT STD_LOGIC;
+        estimulo : OUT STD_LOGIC;
+        pulso1 : OUT STD_LOGIC;
+        pulso2 : OUT STD_LOGIC;
+        pulso_scope1 : OUT STD_LOGIC;
+        pulso_scope2 : OUT STD_LOGIC;
+        erro : OUT STD_LOGIC;
+        pronto : OUT STD_LOGIC;
+        burlou_assinc : OUT STD_LOGIC;
+        db_estado_display : OUT STD_LOGIC_VECTOR(6 DOWNTO 0)
         );
     END COMPONENT;
 
@@ -53,9 +58,12 @@ ARCHITECTURE Behavioral OF interface_leds_botoes IS
 
     COMPONENT pulso_assincrono IS
         PORT (
-            resposta_reset : IN STD_LOGIC;
+            resposta_reset1 : IN STD_LOGIC;
+            resposta_reset2 : IN STD_LOGIC;
             estimulo : IN STD_LOGIC;
-            pulso : OUT STD_LOGIC
+            pulso1 : OUT STD_LOGIC;
+            pulso2 : OUT STD_LOGIC;
+            menor_tempo : OUT STD_LOGIC
         );
     END COMPONENT;
 
@@ -66,29 +74,32 @@ ARCHITECTURE Behavioral OF interface_leds_botoes IS
         );
     END COMPONENT;
 
-    SIGNAL rco, contaCont, zeraCont, resposta_reset, s_estimulo, pulso_interm : STD_LOGIC;
+    SIGNAL rco, contaCont, zeraCont, resposta_reset1, resposta_reset2, s_estimulo, pulso_interm1, pulso_interm2  : STD_LOGIC;
     SIGNAL db_estado : STD_LOGIC_VECTOR(3 DOWNTO 0);
     
 BEGIN
     estimulo <= s_estimulo;
-    pulso <= pulso_interm;
-    pulso_scope <= pulso_interm;
+    pulso1 <= pulso_interm1;
+    pulso1 <= pulso_interm2;
+    pulso_scope1 <= pulso_interm1; --Pulso para Osciloscópio
     
     uc : interface_leds_botoes_uc
     PORT MAP(
-        clock => clock,
-        reset => reset,
-        iniciar => iniciar,
-        resposta => resposta,
-        rco => rco,
-        ligado => ligado,
-        estimulo => s_estimulo,
-        erro => erro,
-        pronto => pronto,
-        contaCont => contaCont,
-        burlou_assinc => burlou_assinc,
-        zeraCont => zeraCont,
-        db_estado => db_estado
+        clock : IN STD_LOGIC;
+        reset : IN STD_LOGIC;
+        iniciar : IN STD_LOGIC;
+        resposta1 : IN STD_LOGIC;
+        resposta2 : IN STD_LOGIC;
+        ligado : OUT STD_LOGIC;
+        estimulo : OUT STD_LOGIC;
+        pulso1 : OUT STD_LOGIC;
+        pulso2 : OUT STD_LOGIC;
+        pulso_scope1 : OUT STD_LOGIC;
+        pulso_scope2 : OUT STD_LOGIC;
+        erro : OUT STD_LOGIC;
+        pronto : OUT STD_LOGIC;
+        burlou_assinc : OUT STD_LOGIC;
+        db_estado_display : OUT STD_LOGIC_VECTOR(6 DOWNTO 0)
     );
 
     cont : cont10_4digitos
@@ -105,9 +116,12 @@ BEGIN
 
     identificador_pulso : pulso_assincrono
     PORT MAP(
-        resposta_reset => resposta_reset,
+        resposta_reset1 => resposta_reset1,
+        resposta_reset2 => resposta_reset2,
         estimulo => s_estimulo,
-        pulso => pulso_interm
+        pulso1 => pulso_interm1,
+        pulso2 => pulso_interm2,
+        menor_tempo : OUT STD_LOGIC
     );
 
     display : hex7seg
@@ -116,6 +130,7 @@ BEGIN
         display => db_estado_display
     );
 
-    resposta_reset <= resposta OR reset;
+    resposta_reset1 <= resposta1 OR reset;
+    resposta_reset2 <= resposta2 OR reset;
 
 END ARCHITECTURE Behavioral;
