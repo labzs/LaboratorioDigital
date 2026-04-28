@@ -94,7 +94,7 @@ BEGIN
             
              WHEN modo =>
                 db_estado <= "0011"; --3
-                zeraCont <= '0';
+                zeraCont <= '1';
                 contaCont <= '1';
                 ligado <= '1';
                 IF rco = '1' THEN
@@ -123,7 +123,9 @@ BEGIN
                 estimulo <= '0';
                 pronto <= '1';
                 ligado <= '0';
-                IF modo1 = '1' AND (contador_fim = '1') THEN
+                zeraCont <= '1'; -- Contagem pra passar pro estado seguinte
+                contaCont <= '1';
+                IF modo1 = '1' AND (rco = '1') THEN
                     posterior <= recorde;
                 ELSIF modo2 = '1' AND (contador_fim = '1') THEN
                     posterior <= resposta2;
@@ -132,8 +134,10 @@ BEGIN
                 END IF;
             
              WHEN resposta2 =>
+                 zeraCont <= '1';
+                 contaCont <= '1';
                  db_estado <= "0110"; --6
-                IF contador_fim = '1' THEN
+                IF contador_fim = '1' AND rco = '1' THEN
                     posterior <= recorde;
                 ELSE
                     posterior <= resposta2;
