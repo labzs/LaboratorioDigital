@@ -74,8 +74,21 @@ ARCHITECTURE Behavioral OF interface_leds_botoes IS
         );
     END COMPONENT;
 
+    COMPONENT registrador_recorde 
+        PORT MAP (
+        clock       => clock,
+        reset       => reset,
+        atualiza    => s_atualiza_recorde,
+        tempo_atual => s_tempo_atual, -- Vem das saídas Q0, Q1, Q2, Q3 do seu contador
+        recorde_out => s_recorde_atual
+    );
+    END COMPONENT;
+
     SIGNAL rco, contaCont, zeraCont, resposta_reset1, resposta_reset2, s_estimulo, pulso_interm1, pulso_interm2  : STD_LOGIC;
     SIGNAL db_estado : STD_LOGIC_VECTOR(3 DOWNTO 0);
+    SIGNAL s_tempo_atual : STD_LOGIC_VECTOR(15 DOWNTO 0);
+    SIGNAL s_recorde_atual : STD_LOGIC_VECTOR(15 DOWNTO 0);
+    SIGNAL s_atualiza_recorde : STD_LOGIC;
     
 BEGIN
     estimulo <= s_estimulo;
