@@ -18,6 +18,7 @@ ENTITY interface_leds_botoes_uc IS
         burlou_assinc : OUT STD_LOGIC;
         zeraCont : OUT STD_LOGIC;
         db_estado : OUT STD_LOGIC_VECTOR(3 DOWNTO 0)
+        atualiza_recorde : OUT STD_LOGIC;
     );
 END ENTITY interface_leds_botoes_uc;
 
@@ -125,6 +126,7 @@ BEGIN
                 ligado <= '0';
                 zeraCont <= '1'; -- Contagem pra passar pro estado seguinte
                 contaCont <= '1';
+                atualiza_recorde <= '1'; -- Pulso para salvar se for menor
                 IF modo1 = '1' AND (rco = '1') THEN
                     posterior <= recorde;
                 ELSIF modo2 = '1' AND (rco = '1') THEN
