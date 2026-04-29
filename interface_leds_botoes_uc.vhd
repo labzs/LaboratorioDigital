@@ -127,7 +127,7 @@ BEGIN
                 contaCont <= '1';
                 IF modo1 = '1' AND (rco = '1') THEN
                     posterior <= recorde;
-                ELSIF modo2 = '1' AND (contador_fim = '1') THEN
+                ELSIF modo2 = '1' AND (rco = '1') THEN
                     posterior <= resposta2;
                 ELSE
                     posterior <= fim;
@@ -137,7 +137,7 @@ BEGIN
                  zeraCont <= '1';
                  contaCont <= '1';
                  db_estado <= "0110"; --6
-                IF contador_fim = '1' AND rco = '1' THEN
+                IF rco = '1' THEN
                     posterior <= recorde;
                 ELSE
                     posterior <= resposta2;
