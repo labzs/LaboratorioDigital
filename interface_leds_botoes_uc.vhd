@@ -139,6 +139,7 @@ BEGIN
                  zeraCont <= '1';
                  contaCont <= '1';
                  db_estado <= "0110"; --6
+                atualiza_recorde <= '1'; -- Pulso para salvar se for menor
                 IF rco = '1' THEN
                     posterior <= recorde;
                 ELSE
