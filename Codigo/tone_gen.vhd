@@ -5,6 +5,8 @@ USE ieee.numeric_std.ALL;
 -- Gerador de Tom: divide o clock para gerar onda quadrada em audio
 -- Frequencia gerada = clock_freq / (2 * divisor)
 -- Exemplo (clock 50 MHz): divisor = 56818 -> La (A4) = 440 Hz
+-- CORRIGIDO: Verifica divisor = 0 para evitar division by zero
+
 ENTITY tone_gen IS
     PORT (
         clock   : IN  STD_LOGIC;

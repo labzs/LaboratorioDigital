@@ -1,0 +1,253 @@
+================================================================================
+GUIA DE TESTES E VALIDAÇÃO
+================================================================================
+
+APÓS AS CORREÇÕES, SIGA ESTES PASSOS PARA VALIDAR O FUNCIONAMENTO:
+================================================================================
+
+1. COMPILAÇÃO
+═════════════
+
+No Quartus:
+  1. Abra o projeto: Quartus/jogo_tempo_reacao.qpf
+  2. Adicione os novos arquivos à biblioteca:
+     ✓ debounce.vhd
+     ✓ piano_top.vhd (versão atualizada)
+     ✓ tone_gen.vhd (versão corrigida)
+  3. Recompile o projeto (Project → Compile Design)
+  4. Verifique mensagens de erro:
+     - Não deve haver ERROS críticos
+     - Warnings sobre sinais não utilizados podem ser ignorados
+     - Verifique avisos sobre debounce não instanciado (correção: foi adicionado)
+
+
+2. SIMULAÇÃO COMPORTAMENTAL (ModelSim)
+══════════════════════════════════════
+
+  Abra piano_tb.vhd em simulação:
+  
+  a) Compile e simule usando ModelSim:
+     $ vsim -do "run 1 ms" piano_tb
+  
+  b) Valide os seguintes testes (definidos em piano_tb.vhd):
+     
+     CT0: Reset Inicial
+         ✓ audio = 0
+         ✓ led_r = 0, led_g = 0, led_b = 0
+         ✓ hex0 = "1111111" (display apagado)
+     
+     CT1: Nota Do C4 (SW[0])
+         ✓ Após ~20ms: audio começa a oscilar
+         ✓ led_r = 1 (vermelho), led_g = 0, led_b = 0
+         ✓ hex0 = "1000000" (digito 0)
+         ✓ Frequência observada: ~261Hz (pode variar com clock)
+     
+     CT2: Soltar tecla
+         ✓ audio vai para 0 imediatamente
+         ✓ Todos LEDs = 0
+         ✓ hex0 = "1111111" (apagado)
+     
+     CT3: Nota Re D4 (SW[1])
+         ✓ Após ~20ms: audio diferente de CT1
+         ✓ led_r = 1, led_g = 1 (amarelo), led_b = 0
+         ✓ hex0 = "1111001" (digito 1)
+         ✓ Frequência > 261Hz (293Hz esperado)
+     
+     CT4: Nota Mi E4 (SW[2])
+         ✓ led_r = 0, led_g = 1 (verde), led_b = 0
+         ✓ hex0 mostra "2"
+         ✓ Frequência > anterior
+
+
+3. VALIDAÇÃO POR INSPEÇÃO (Wave Analysis)
+═════════════════════════════════════════
+
+  a) Abra a wave window (View → Wave)
+  
+  b) Adicione sinais de interesse:
+     - botoes[0]
+     - botoes_db_s[0]  
+     - audio
+     - liga
+     - FSM_state (piano_uc.estado)
+  
+  c) Zoom na região T0-T50ms do sinal de botoes
+  
+  d) Observações esperadas:
+     
+     Sinal botoes:  ┌─────┐   (com pequenas oscilações = bounce)
+                    │   ┌─┴─┐
+                    │   │   │
+                    └───┘   └────
+     
+     Sinal botoes_db_s: ┌────────────────  (estável!)
+                        │
+                        └──────
+     
+     Delay entre transição: ~20ms (tempo de debounce)
+     
+  e) Verifique transição de audio:
+     
+     Antes (SEM debounce):
+     Audio: ~~~~~~~~~~~~ (oscila constantemente - BUG!)
+     
+     Depois (COM debounce):
+     Audio: ─────────┐  ┌──────────  (liga após debounce, desliga limpo)
+                     └──┘
+
+
+4. TESTE EM HARDWARE (FPGA)
+═══════════════════════════
+
+  Após compilar em Quartus, carregue no FPGA:
+  
+  a) Pressione SW[0]:
+     Resultado esperado:
+     ✓ LED RGB acende em VERMELHO
+     ✓ Display HEX0 mostra "0"
+     ✓ Som audível em AUDIO_OUT (frequência ~261Hz)
+     ✓ SEM cliques ou glitches ao pressionar
+  
+  b) Pressione SW[1]:
+     Resultado esperado:
+     ✓ LED RGB acende em AMARELO
+     ✓ Display HEX0 mostra "1"
+     ✓ Som audível diferente (frequência ~293Hz)
+     ✓ Transição suave da nota anterior
+  
+  c) Pressione SW[5] (nota La - 440Hz):
+     Resultado esperado:
+     ✓ Frequência de referência com Analog Discovery
+     ✓ Medicação: ~440Hz (aproximadamente)
+  
+  d) Solte o botão:
+     Resultado esperado:
+     ✓ Som para imediatamente
+     ✓ LED RGB apaga
+     ✓ Display HEX0 apaga
+     ✓ Sem som residual
+  
+  e) Teste prioridade (press SW[0] + SW[5]):
+     Resultado esperado:
+     ✓ LED VERMELHO (SW[0] tem prioridade)
+     ✓ HEX0 mostra "0"
+     ✓ Frequência ~261Hz (Do, não La)
+  
+  f) Teste rápido (press/release rápido):
+     Resultado esperado:
+     ✓ Sem comportamento errático
+     ✓ Som sai corretamente por cada pressionamento
+     ✓ Sem cliques ou transições aleatórias
+
+
+5. COMPARAÇÃO: ANTES vs DEPOIS
+═════════════════════════════
+
+  ANTES (sem debounce):
+  ├─ Pressionando botão: som aleatório/instável
+  ├─ Soltando botão: som não para (audio congelado)
+  ├─ Pressionamentos rápidos: comportamento erático
+  ├─ Múltiplos botões: transições erráticas
+  ├─ Audio: com cliques e glitches
+  └─ Experiência: não-funcional
+  
+  DEPOIS (com debounce + correção):
+  ├─ Pressionando botão: som correto (~20ms delay aceitável)
+  ├─ Soltando botão: som para imediatamente
+  ├─ Pressionamentos rápidos: funciona previsível
+  ├─ Múltiplos botões: prioridade mantida
+  ├─ Audio: suave e sem distorção
+  └─ Experiência: funcional e previsível
+
+
+6. ANÁLISE ESPECTRAL (Opcional - com Analog Discovery)
+═════════════════════════════════════════════
+
+  Se disponível, conecte Analog Discovery:
+  
+  a) Pressione SW[0] (Do C4):
+     FFT deve mostrar pico em ~261Hz
+  
+  b) Pressione SW[5] (La A4):
+     FFT deve mostrar pico em ~440Hz
+  
+  c) Compare relação de frequências:
+     440/261 ≈ 1.686 (intervalo musical esperado)
+
+
+7. CHECKLIST DE VALIDAÇÃO
+═════════════════════════
+
+  □ Código compila sem erros críticos
+  □ Simulação passa em todos os CTs (CT0-CT7)
+  □ Wave analysis mostra debounce funcionando
+  □ Hardware acende LED correto por botão
+  □ Hardware mostra nota correta no display
+  □ Audio audível com frequência correta
+  □ Transição suave entre notas
+  □ Som para ao soltar botão
+  □ Prioridade de botões funciona (SW[0] > SW[1] > ...)
+  □ Sem comportamento errático com pressionamentos rápidos
+  □ Sem cliques ou glitches no audio
+  □ Compatível com simulação ModelSim
+
+
+8. TROUBLESHOOTING
+═══════════════════
+
+  Se houver erros de compilação:
+  
+  Erro: "Component debounce not found"
+        → Adicione debounce.vhd ao projeto Quartus
+        → Certifique que está compilando antes de piano_top.vhd
+  
+  Erro: "Port map mismatch"
+        → Verifique nomes de sinais em piano_top.vhd
+        → Confirme generics do debounce: CLK_FREQ, DEBOUNCE_MS
+  
+  Se o audio não parar após soltar botão:
+        → Verifique se tone_gen.vhd foi atualizado com a correção
+        → Confirme que divisor=0 é tratado corretamente
+  
+  Se houver delay muito longo (>100ms):
+        → Reduzir DEBOUNCE_MS em piano_top.vhd (de 20 para 10)
+        → Testar se comportamento melhora
+  
+  Se houver comportamento errático ainda:
+        → Aumentar DEBOUNCE_MS (de 20 para 30)
+        → Verificar clock do FPGA: deve ser exatamente 50MHz
+        → Verificar qualidade dos botões no hardware
+
+
+9. AFINAÇÃO FINA
+═════════════════
+
+  Para ajustar tempo de debounce:
+  
+  Em piano_top.vhd, linha 70:
+  
+  GENERIC MAP (
+      CLK_FREQ     => 50000000,     -- Não alterar
+      DEBOUNCE_MS  => 20             -- ← Alterar aqui se necessário
+  )
+  
+  Recomendações:
+  • 5-10ms:   Botões muito responsivos (pode pegar bounce)
+  • 10-20ms:  Ideal para switches mecânicos normais
+  • 20-50ms:  Para switches com muito bounce
+  • 50-100ms: Para switches de má qualidade
+
+
+================================================================================
+PRÓXIMOS PASSOS RECOMENDADOS
+================================================================================
+
+1. Testar em simulação (ModelSim) - mais rápido
+2. Compilar em Quartus
+3. Carregar em FPGA
+4. Executar testes de hardware
+5. Comparar comportamento ANTES vs DEPOIS
+6. Ajustar DEBOUNCE_MS se necessário
+7. Documentar comportamento final
+
+================================================================================

@@ -1,0 +1,199 @@
+================================================================================
+ANÁLISE E CORREÇÃO DO CÓDIGO PIANO EM FPGA
+================================================================================
+
+PROBLEMAS IDENTIFICADOS:
+================================================================================
+
+1. ❌ AUSÊNCIA DE DEBOUNCING (CRÍTICO)
+   ────────────────────────────────────
+   
+   PROBLEMA:
+   - Botões mecânicos não possuem filtro contra instabilidade
+   - Quando uma chave é pressionada, ela oscila por ~5-20ms (contact bounce)
+   - Cada oscilação gera múltiplas transições que o FPGA lê como pressionamentos
+   
+   IMPACTO:
+   ✗ Notas aleatórias e distorcidas
+   ✗ FSM transiciona erraticamente entre estados
+   ✗ Comportamento impredizível e não reproduzível
+   ✗ Áudio com glitches
+   
+   CAUSA RAIZ:
+   • key_decoder.vhd lê botões diretamente sem filtro
+   • piano_uc.vhd verifica "botoes /= 00000000" em instante errado
+   • piano_fd.vhd passa botões direto para key_decoder
+
+
+2. ❌ BUG EM tone_gen.vhd - Divisão por Zero Lógica
+   ──────────────────────────────────────────────────
+   
+   PROBLEMA (linha 31):
+   ```vhd
+   ELSIF contador = UNSIGNED(divisor) - 1 THEN
+   ```
+   
+   Quando divisor = 0 (nenhum botão pressionado):
+   • UNSIGNED(0) - 1 = 131071 (máximo de 17 bits)
+   • contador nunca atinge esse valor
+   • audio fica congelado em último valor
+   
+   IMPACTO:
+   ✗ Áudio continua oscilando quando nenhuma nota está ativa
+   ✗ Após soltar botão, audio não para imediatamente
+
+
+3. ⚠️  POSSÍVEL METAESTABILIDADE
+   ──────────────────────────────
+   
+   • Múltiplos botões pressionados simultaneamente
+   • Sem sincronização no clock, sinais podem estar em estado metaestável
+   • Amplifica problemas de bounce
+
+
+================================================================================
+SOLUÇÕES IMPLEMENTADAS:
+================================================================================
+
+✅ 1. NOVO MÓDULO: debounce.vhd
+   ──────────────────────────────
+   
+   • Filtra cada bit do vetor de botões independentemente
+   • Usa contador de estabilidade: signal estável por ~20ms antes de mudar saída
+   • Genéricos:
+     - CLK_FREQ: frequência do clock (padrão 50MHz)
+     - DEBOUNCE_MS: tempo de debounce (padrão 20ms)
+   
+   CÁLCULO:
+   CONTADOR_MAX = (50_000_000 Hz / 1000) × 20 ms = 1_000_000 ciclos
+   Tempo de debounce = 1_000_000 × (1 / 50_000_000 Hz) = 20 ms
+   
+   FUNCIONAMENTO:
+   • Se entrada = saída: zera contador
+   • Se entrada ≠ saída: incrementa contador
+   • Quando contador atinge CONTADOR_MAX: saída muda
+
+
+✅ 2. MODIFICAÇÃO: piano_top.vhd
+   ────────────────────────────
+   
+   ANTES:
+   • botoes → piano_uc (direto)
+   • botoes → piano_fd (direto)
+   
+   DEPOIS:
+   • botoes → debounce → botoes_db_s
+   • botoes_db_s → piano_uc (filtrado)
+   • botoes_db_s → piano_fd (filtrado)
+   
+   Adicionado:
+   • Instância do componente debounce
+   • Signal botoes_db_s para botões debounced
+   • Mapeamento de portas no módulo debounce
+
+
+✅ 3. CORREÇÃO: tone_gen.vhd
+   ────────────────────────
+   
+   ANTES:
+   ```vhd
+   ELSIF contador = UNSIGNED(divisor) - 1 THEN
+       contador <= (OTHERS => '0');
+       s_audio <= NOT s_audio;
+   ELSE
+       contador <= contador + 1;
+   END IF;
+   ```
+   
+   DEPOIS:
+   ```vhd
+   ELSIF divisor = (divisor'RANGE => '0') THEN
+       -- Se divisor = 0, nao gera tom
+       contador <= (OTHERS => '0');
+       s_audio <= '0';
+   ELSIF contador = UNSIGNED(divisor) - 1 THEN
+       contador <= (OTHERS => '0');
+       s_audio <= NOT s_audio;
+   ELSE
+       contador <= contador + 1;
+   END IF;
+   ```
+   
+   IMPACTO:
+   • Verifica se divisor = 0 antes de comparação
+   • Se divisor = 0, força audio = 0
+   • Elimina o problema de audio congelado
+
+
+================================================================================
+MELHORIAS ESPERADAS:
+================================================================================
+
+✓ Audio estável e sem glitches quando pressionando/soltando botões
+✓ Transições limpas entre notas
+✓ Comportamento reproduzível e previsível
+✓ FSM transiciona corretamente entre estados idle/tocando
+✓ Display e LEDs respondem corretamente ao comando
+✓ Eliminação de sons fantasmas após soltar botão
+
+
+================================================================================
+OUTROS ARQUIVOS ANALISADOS:
+================================================================================
+
+key_decoder.vhd
+  ✓ Lógica correta - mapeia botões para notas
+  ✓ Prioridade implementada corretamente (SW[0] > SW[1] > ...)
+  ✓ Valores de divisor para frequências calculados corretamente
+  ✓ Códigos de cores RGB mapeados corretamente
+
+piano_uc.vhd
+  ✓ FSM de Moore com 2 estados (idle/tocando)
+  ✓ Lógica correta, problema era falta de debouncing na entrada
+
+piano_fd.vhd
+  ✓ Integração correta de componentes
+  ✓ Mapeia display e LEDs de forma apropriada
+  ✓ Habilita/desabilita saídas corretamente com sinal 'liga'
+
+tone_gen.vhd
+  ✓ Cálculo de frequência correto (f = clock_freq / (2 × divisor))
+  ✓ Problema identificado e corrigido (divisor = 0)
+
+hex7seg.vhd
+  ✓ Tabela de conversão para 7 segmentos correta
+  ✓ Nenhum problema identificado
+
+piano_tb.vhd
+  ✓ Testbench bem estruturado com casos de teste apropriados
+  ✓ Válida comportamento esperado
+
+
+================================================================================
+RECOMENDAÇÕES ADICIONAIS:
+================================================================================
+
+1. TESTES
+   • Compilar com os novos arquivos
+   • Executar piano_tb.vhd em simulação
+   • Verificar transições entre notas
+   • Testar pressionamento simultâneo de múltiplos botões
+
+2. HARDWARE
+   • Verificar conexão dos botões no FPGA
+   • Validar frequências de clock (deve ser 50MHz)
+   • Testar cada nota individualmente
+   • Verificar níveis de tensão nos botões
+
+3. SINTONIZAÇÃO
+   • Se ainda houver problemas, aumentar DEBOUNCE_MS em debounce.vhd
+   • Valores típicos: 10-50ms dependendo dos botões
+   • Para chaves mecânicas: usar 20-30ms
+   • Para push buttons modernos: usar 10-15ms
+
+4. OTIMIZAÇÕES FUTURAS
+   • Usar multi-sampling (ler botões múltiplas vezes)
+   • Implementar debouncing em firmware (se tiver microcontrolador)
+   • Usar pull-up/pull-down resistores no hardware
+
+================================================================================

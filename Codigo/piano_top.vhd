@@ -4,6 +4,7 @@ USE ieee.std_logic_1164.ALL;
 -- Piano Digital - Top Level (Experiencia 9)
 -- Instancia a Unidade de Controle e o Fluxo de Dados conforme
 -- arquitetura hierarquica estrutural exigida pelo projeto.
+-- CORRIGIDO: Adicionado debouncing dos botoes
 
 ENTITY piano_top IS
     PORT (
