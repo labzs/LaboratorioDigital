@@ -1,0 +1,183 @@
+================================================================================
+DIAGRAMA DA ARQUITETURA - ANTES vs DEPOIS
+================================================================================
+
+ANTES (COM PROBLEMAS):
+──────────────────────
+
+        ┌─────────────────────────────────────────────────────────────────┐
+        │                        PIANO_TOP                                │
+        │                                                                 │
+        │  ┌──────┐    ┌─────────────────────────────────────────────┐   │
+        │  │botoes├─┬──┤                                             │   │
+        │  └──────┘ │  │            PIANO_UC (FSM)                  │   │
+        │           │  │     idle ←─→ tocando                       │   │
+        │           │  │     (sem debouncing de entrada)           │   │
+        │           │  └────────┬────────────────────────────────────┘   │
+        │           │           │ liga                                     │
+        │           │           │                                         │
+        │           └─┬─────────┼──────────────────────────────────────┐  │
+        │             │         │                  PIANO_FD             │  │
+        │             │         │  ┌──────────────────────────────────┐ │  │
+        │             │         │  │           KEY_DECODER           │ │  │
+        │             └────────→├──┤ botoes → divisor, led_r/g/b     │ │  │
+        │             botoes    │  │ (sem sincronização)             │ │  │
+        │             (direto)  │  └──────────┬───────────────────────┘ │  │
+        │                       │             │ divisor                 │  │
+        │                       │  ┌──────────▼───────────────────────┐ │  │
+        │                       │  │       TONE_GEN                  │ │  │
+        │                       ├──┤ ativo=liga, divisor             │ │  │
+        │                       │  │ Problema: divisor=0 causa bug   │ │  │
+        │                       │  └──────────┬───────────────────────┘ │  │
+        │                       │             │ audio                   │  │
+        │                       │  ┌──────────▼───────────────────────┐ │  │
+        │                       │  │      HEX7SEG                    │ │  │
+        │                       │  └─────────────────────────────────┘ │  │
+        │                       └─────────────────────────────────────┘  │
+        └─────────────────────────────────────────────────────────────────┘
+
+PROBLEMAS:
+✗ botões direto sem filtro → bounce causa transitions falsas
+✗ FSM lê botões no estado metaestável → transiciona erraticamente
+✗ tone_gen com divisor=0 → audio congelado
+
+═══════════════════════════════════════════════════════════════════════════════
+
+DEPOIS (CORRIGIDO):
+───────────────────
+
+        ┌────────────────────────────────────────────────────────────────────┐
+        │                          PIANO_TOP                                 │
+        │                                                                    │
+        │  ┌──────┐    ┌─────────────────────────────────────────────┐      │
+        │  │botoes├───→│           DEBOUNCE                          │      │
+        │  └──────┘    │ entrada → saida (estável após ~20ms)       │      │
+        │              └─────────────┬──────────────────────────────┘      │
+        │                            │ botoes_db_s                          │
+        │              ┌─────────────┴──────────────────────────────┐       │
+        │              │                                            │       │
+        │         ┌────▼────────────────────────────────────────┐  │       │
+        │         │              PIANO_UC (FSM)                │  │       │
+        │    ┌────┤ botoes_db_s → idle ←─→ tocando           │  │       │
+        │    │    │ (entrada sincronizada e filtrada)        │  │       │
+        │    │    └────┬─────────────────────────────────────┘  │       │
+        │    │         │ liga                                    │       │
+        │    │    ┌────▼──────────────────────────────────────┐ │       │
+        │    │    │           PIANO_FD                       │ │       │
+        │    │    │  ┌──────────────────────────────────────┐│ │       │
+        │    │    │  │       KEY_DECODER                   ││ │       │
+        │    └───→├──┤ botoes_db_s → divisor, led_r/g/b   ││ │       │
+        │         │  │ (entrada sincronizada)              ││ │       │
+        │         │  └──────────┬────────────────────────────┘│ │       │
+        │    botoes_db_s        │ divisor                     │ │       │
+        │    (filtrado)         │                             │ │       │
+        │                  ┌────▼──────────────────────────────┐│ │       │
+        │                  │     TONE_GEN                     ││ │       │
+        │                  ├──→ ativo=liga, divisor          ││ │       │
+        │                  │   ✓ Verifica divisor ≠ 0       ││ │       │
+        │                  │   ✓ audio sincronizado          ││ │       │
+        │                  └──────────┬─────────────────────────┘│ │       │
+        │                             │ audio                     │       │
+        │                  ┌──────────▼──────────────────────────┐│ │       │
+        │                  │      HEX7SEG                       ││ │       │
+        │                  └────────────────────────────────────┘│ │       │
+        │                                                        │       │
+        │              ┌─────────────────────────────────────┐  │       │
+        │              │        LED_OUTPUT                  │  │       │
+        │              │   led_r, led_g, led_b             │  │       │
+        │              │   (habilitados por 'liga')        │  │       │
+        │              └─────────────────────────────────────┘  │       │
+        │              └─────────────────────────────────────────┘       │
+        └────────────────────────────────────────────────────────────────┘
+
+MELHORIAS:
+✓ DEBOUNCE filtra entrada por 20ms
+✓ Botões sincronizados no clock antes de entrar na FSM
+✓ tone_gen verifica divisor ≠ 0 → audio controlado
+✓ Transições suaves entre estados
+✓ Sem clicks ou glitches no áudio
+
+
+═══════════════════════════════════════════════════════════════════════════════
+FLUXO DE DADOS - EXEMPLO: Pressionando botão SW[0] (nota Do)
+═══════════════════════════════════════════════════════════════════════════════
+
+T0: Usuário aperta SW[0]
+    botoes[0] = 0 → 1 (com bounce: 0→1→0→1→0→1→0→1...)
+    
+    ANTES (sem debounce):
+    ├─ FSM lê "botoes = 00000001" → transiciona para "tocando"
+    ├─ Mas em T+1: FSM lê "botoes = 00000000" (durante bounce) 
+    │   → transiciona para "idle" (ERRO!)
+    ├─ Áudio liga/desliga aleatoriamente
+    └─ Notas distorcidas ou silenciosas
+    
+    DEPOIS (com debounce):
+    ├─ Debounce incrementa contador por 20ms
+    ├─ Enquanto botoes oscila: botoes_db_s permanece estável
+    ├─ Após 20ms: botoes_db_s = 1 (estável)
+    ├─ FSM lê entrada sincronizada → transiciona para "tocando" (UMA VEZ)
+    ├─ key_decoder lê botoes_db_s=1 → divisor=95557 (Do C4)
+    ├─ tone_gen gera frequência correta: f = 50MHz / (2 × 95557) = 261Hz
+    ├─ LED = vermelho (Do)
+    ├─ HEX0 = "0" (nota 0)
+    └─ Audio = onda quadrada estável 261Hz
+
+
+T1: Usuário mantém SW[0] pressionado
+    botoes[0] = 1 (estável)
+    debounce mantém botoes_db_s = 1
+    FSM permanece em "tocando"
+    Audio continua gerando 261Hz
+
+
+T2: Usuário solta SW[0]
+    botoes[0] = 1 → 0 (com bounce: 1→0→1→0→1→0...)
+    
+    ANTES:
+    ├─ FSM transiciona repetidas vezes
+    ├─ Audio ativa/desativa aleatoriamente
+    └─ Comportamento impredizível
+    
+    DEPOIS:
+    ├─ Debounce incrementa contador por 20ms
+    ├─ Enquanto botoes oscila: botoes_db_s permanece em 1
+    ├─ Após 20ms: botoes_db_s = 0 (estável)
+    ├─ FSM lê entrada sincronizada → transiciona para "idle" (UMA VEZ)
+    ├─ key_decoder lê botoes_db_s=0 → divisor=0 (nenhuma nota)
+    ├─ tone_gen VERIFICA divisor=0 → força audio=0 (CORREÇÃO!)
+    ├─ LED = 0 (apagado)
+    ├─ HEX0 = "1111111" (apagado)
+    └─ Audio = 0 (silencio imediato)
+
+
+═══════════════════════════════════════════════════════════════════════════════
+CRONOGRAMA (Timing) - COM DEBOUNCE
+═══════════════════════════════════════════════════════════════════════════════
+
+botoes[0]     0  ┌──────────────────────────────────────────┐
+               └──┴─────────────────────────────────────────┘  (~5ms bounce)
+               
+debounce_cnt  0  ┌──┐┌──┐┌──┐┌──┐┌──┐...  (incrementa durante oscilação)
+               └──┘└──┘└──┘└──┘└──┘
+               
+botoes_db_s   0  (aguarda 20ms)     1  ┌───────────────────────
+               ─────────────────────────┘
+               
+FSM_state     idle (aguarda 20ms) tocando ───────────────────
+               ─────────────────────────┘
+               
+audio         0  (aguarda 20ms)    ~~~~  (onda 261Hz)
+               ─────────────────────────┤~|~|~|
+               
+led_r         0  (aguarda 20ms)    1  (aceso)
+               ─────────────────────────┤
+               
+hex0          1111111 (apagado)   1000000 (digito 0)
+               ─────────────────────────┤
+               
+                               ↑
+                            ~20ms = tempo de debounce
+
+
+═══════════════════════════════════════════════════════════════════════════════

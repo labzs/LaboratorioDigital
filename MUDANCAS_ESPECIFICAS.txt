@@ -1,0 +1,278 @@
+================================================================================
+REFERÊNCIA RÁPIDA - MUDANÇAS ESPECÍFICAS
+================================================================================
+
+1. ARQUIVO: piano_top.vhd
+   ═══════════════════════════════════════════════════════════════════════════
+
+   LOCAL: Declaração de componentes (após piano_fd)
+   ───────────────────────────────────────────────────────────────
+   
+   ADICIONADO:
+   ```vhd
+   COMPONENT debounce IS
+       GENERIC (
+           CLK_FREQ     : POSITIVE := 50000000;
+           DEBOUNCE_MS  : POSITIVE := 20
+       );
+       PORT (
+           clock   : IN  STD_LOGIC;
+           reset   : IN  STD_LOGIC;
+           entrada : IN  STD_LOGIC_VECTOR(7 DOWNTO 0);
+           saida   : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
+       );
+   END COMPONENT;
+   ```
+   
+   LOCAL: Declaração de sinais
+   ───────────────────────────────────────────────────────────────
+   
+   ANTES:
+   ```vhd
+   SIGNAL reset_int : STD_LOGIC;
+   SIGNAL liga_s    : STD_LOGIC;
+   ```
+   
+   DEPOIS:
+   ```vhd
+   SIGNAL reset_int    : STD_LOGIC;
+   SIGNAL liga_s       : STD_LOGIC;
+   SIGNAL botoes_db_s  : STD_LOGIC_VECTOR(7 DOWNTO 0);  -- NOVO
+   ```
+   
+   LOCAL: Instância de componentes (após BEGIN)
+   ───────────────────────────────────────────────────────────────
+   
+   ADICIONADO (entre reset_int <= NOT reset_n e U_UC):
+   ```vhd
+   -- Instancia modulo de debouncing dos botoes
+   U_DEBOUNCE : debounce
+   GENERIC MAP (
+       CLK_FREQ     => 50000000,  -- 50 MHz
+       DEBOUNCE_MS  => 20          -- 20 ms de debounce
+   )
+   PORT MAP (
+       clock   => clock,
+       reset   => reset_int,
+       entrada => botoes,
+       saida   => botoes_db_s
+   );
+   ```
+   
+   LOCAL: Port maps de U_UC e U_DP
+   ───────────────────────────────────────────────────────────────
+   
+   ANTES (U_UC):
+   ```vhd
+   U_UC : piano_uc
+   PORT MAP (
+       clock     => clock,
+       reset     => reset_int,
+       botoes    => botoes,           -- DIRETO
+       liga      => liga_s,
+       db_estado => OPEN
+   );
+   ```
+   
+   DEPOIS (U_UC):
+   ```vhd
+   U_UC : piano_uc
+   PORT MAP (
+       clock     => clock,
+       reset     => reset_int,
+       botoes    => botoes_db_s,      -- DEBOUNCED
+       liga      => liga_s,
+       db_estado => OPEN
+   );
+   ```
+   
+   ANTES (U_DP):
+   ```vhd
+   U_DP : piano_fd
+   PORT MAP (
+       clock  => clock,
+       reset  => reset_int,
+       liga   => liga_s,
+       botoes => botoes,              -- DIRETO
+       ...
+   );
+   ```
+   
+   DEPOIS (U_DP):
+   ```vhd
+   U_DP : piano_fd
+   PORT MAP (
+       clock  => clock,
+       reset  => reset_int,
+       liga   => liga_s,
+       botoes => botoes_db_s,         -- DEBOUNCED
+       ...
+   );
+   ```
+
+
+2. ARQUIVO: tone_gen.vhd
+   ═══════════════════════════════════════════════════════════════════════════
+   
+   LOCAL: Processo sequencial (IF ativo = '0')
+   ───────────────────────────────────────────────────────────────
+   
+   ANTES:
+   ```vhd
+   IF ativo = '0' THEN
+       contador <= (OTHERS => '0');
+       s_audio  <= '0';
+   ELSIF contador = UNSIGNED(divisor) - 1 THEN
+       contador <= (OTHERS => '0');
+       s_audio  <= NOT s_audio;
+   ELSE
+       contador <= contador + 1;
+   END IF;
+   ```
+   
+   DEPOIS:
+   ```vhd
+   IF ativo = '0' THEN
+       contador <= (OTHERS => '0');
+       s_audio  <= '0';
+   -- Verifica se divisor eh maior que zero (evita divisao por zero)
+   ELSIF divisor = (divisor'RANGE => '0') THEN
+       -- Se divisor = 0, nao gera tom
+       contador <= (OTHERS => '0');
+       s_audio  <= '0';
+   ELSIF contador = UNSIGNED(divisor) - 1 THEN
+       contador <= (OTHERS => '0');
+       s_audio  <= NOT s_audio;
+   ELSE
+       contador <= contador + 1;
+   END IF;
+   ```
+   
+   EXPLICAÇÃO:
+   • Novo IF verifica: divisor = (divisor'RANGE => '0')
+   • Equivalente a: divisor = "00000000000000000" (17 bits zeros)
+   • Se verdadeiro: contador e s_audio são zerados
+   • Impede que contador nunca atinja "divisor - 1" quando divisor = 0
+   • Audio fica em '0' quando nenhum botão está pressionado
+
+
+3. ARQUIVO: debounce.vhd (NOVO)
+   ═══════════════════════════════════════════════════════════════════════════
+   
+   Este é um novo arquivo completo. Veja debounce.vhd para conteúdo completo.
+   
+   Resumo da lógica:
+   ─────────────────
+   • Para cada bit 0 a 7:
+     - Se entrada[i] ≠ saida_int[i]: incrementa contador[i]
+     - Se contador[i] >= CONTADOR_MAX: atualiza saida_int[i]
+     - Se entrada[i] = saida_int[i]: reseta contador[i]
+   
+   • CONTADOR_MAX = (CLK_FREQ / 1000) × DEBOUNCE_MS
+     Com CLK_FREQ = 50MHz e DEBOUNCE_MS = 20ms:
+     CONTADOR_MAX = 1,000,000 ciclos de clock
+
+
+================================================================================
+RESUMO DE MUDANÇAS
+================================================================================
+
+ARQUIVO                    TIPO      MUDANÇAS
+────────────────────────────────────────────────────────────────────────────
+piano_top.vhd              Modificado  ✓ Component debounce adicionado
+                                       ✓ Signal botoes_db_s adicionado
+                                       ✓ U_DEBOUNCE instanciado
+                                       ✓ piano_uc usa botoes_db_s
+                                       ✓ piano_fd usa botoes_db_s
+
+tone_gen.vhd               Modificado  ✓ Verificação divisor = 0 adicionada
+                                       ✓ Trata edge case divisor = 0
+
+debounce.vhd               NOVO        ✓ Arquivo completo novo
+                                       ✓ Filtragem de botões
+                                       ✓ Tempo configurável via genéricos
+
+Codigo/piano_top.vhd       Cópia       ✓ Cópia atualizada para Codigo/
+
+Codigo/tone_gen.vhd        Cópia       ✓ Cópia corrigida para Codigo/
+
+Codigo/debounce.vhd        Cópia       ✓ Cópia novo módulo para Codigo/
+
+
+================================================================================
+IMPACTO DE MEMÓRIA / ÁREA
+================================================================================
+
+Debounce:
+  • Componentes: 8x contadores de 32 bits + mux + lógica de controle
+  • Área estimada: ~200-300 LUTs (Altera Cyclone V)
+  • Memória: ~256 bits (8 contadores × 32 bits)
+  • Latência: 20ms (configurável)
+  • Performance: Nenhuma limitação, roda a 50MHz
+
+Mudanças em piano_top:
+  • Apenas adição de componente e sinal
+  • Sem impacto em área
+  • Latência total: 20ms antes de dados chegarem ao resto do sistema
+
+Mudanças em tone_gen:
+  • 2 multiplexadores a mais
+  • ~5-10 LUTs adicionais
+  • Nenhum impacto em performance
+
+TOTAL: Pequeno impacto de área (~250-350 LUTs), largamente compensado pela 
+funcionalidade corrigida.
+
+
+================================================================================
+COMO INTEGRAR MUDANÇAS
+================================================================================
+
+Se você criou os arquivos manualmente:
+
+1. Copie debounce.vhd para raiz do projeto
+2. Substitua piano_top.vhd (raiz)
+3. Substitua tone_gen.vhd (raiz)
+4. Em Quartus:
+   a) Abra projeto (Quartus/jogo_tempo_reacao.qpf)
+   b) Project → Add Files
+   c) Selecione debounce.vhd
+   d) Project → Compile Design
+   e) Aguarde compilação
+
+Se os arquivos já foram providos:
+
+1. Certifique que debounce.vhd está no projeto
+2. Compile em Quartus
+3. Simule em ModelSim
+4. Teste em FPGA
+
+
+================================================================================
+VALIDAÇÃO RÁPIDA
+================================================================================
+
+Compilação:
+  └─ Sem erros? ✓
+
+Simulação (piano_tb.vhd):
+  ├─ CT0 passa? ✓ (reset inicial)
+  ├─ CT1 passa? ✓ (Do C4)
+  ├─ CT2 passa? ✓ (silencio)
+  ├─ CT3 passa? ✓ (Re D4)
+  ├─ CT4 passa? ✓ (Mi E4)
+  ├─ CT5 passa? ✓ (Fa F4)
+  ├─ CT6 passa? ✓ (prioridade)
+  └─ CT7 passa? ✓ (reset durante toque)
+
+Hardware:
+  ├─ LED acende com botão? ✓
+  ├─ Som sai com botão? ✓
+  ├─ Display mostra nota? ✓
+  ├─ Som para ao soltar? ✓
+  ├─ Transição suave? ✓
+  └─ Sem comportamento errático? ✓
+
+Se todos os ✓ estiverem marcados → SUCESSO! 🎉
+
+================================================================================
